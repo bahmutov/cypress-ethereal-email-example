@@ -9,7 +9,7 @@ describe('Email confirmation', () => {
     expect(Cypress.env('testEmail')).to.be.a('string')
   })
 
-  it.only('sends confirmation code', () => {
+  it('sends confirmation code', () => {
     const email = Cypress.env('testEmail')
 
     cy.visit('/')
