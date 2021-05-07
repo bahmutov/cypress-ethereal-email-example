@@ -26,7 +26,6 @@ export default async (req, res) => {
       html: confirmationEmailHTML,
     })
     console.log('sent a confirmation email to %s', email)
-    console.log(info)
 
     return
   }
