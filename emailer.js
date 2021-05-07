@@ -29,6 +29,16 @@ const initEmailer = async () => {
   })
 
   emailSender = {
+    /**
+     * created Ethereal email account
+     */
+    testAccount,
+
+    /**
+     * Sends an email using node mailer via Ethereal SMTP server
+     * @param {*} options Email options object
+     * @returns info object with sent email id
+     */
     async sendMail(options) {
       const info = await transporter.sendMail(options)
       console.log('Message sent to %s', options.to)
