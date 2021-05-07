@@ -1,6 +1,7 @@
+// @ts-check
 const { readFileSync } = require('fs')
 const { join } = require('path')
-const emailer = require('../../emailer')
+const initEmailer = require('../../emailer')
 
 const confirmationEmailPath = join(
   process.cwd(), // should be the root folder of the project
@@ -16,6 +17,7 @@ export default async (req, res) => {
     res.status(200).json({ name, email })
 
     // and then send an email
+    const emailer = await initEmailer()
     const info = await emailer.sendMail({
       from: '"Registration system" <reg@company.co>',
       to: email,
@@ -24,6 +26,7 @@ export default async (req, res) => {
       html: confirmationEmailHTML,
     })
     console.log('sent a confirmation email to %s', email)
+    console.log(info)
 
     return
   }

@@ -1,14 +1,45 @@
+// https://nodemailer.com/about/
 const nodemailer = require('nodemailer')
 
-// create reusable transporter object using the default SMTP transport
-// the settings could come from .env file or environment variables
-const host = process.env.SMTP_HOST || 'localhost'
-const port = Number(process.env.SMTP_PORT || 7777)
+// a little wrapper object that makes
+// sending emails more convenient
+let emailSender
 
-const transporter = nodemailer.createTransport({
-  host,
-  port,
-  secure: port === 456,
-})
+const initEmailer = async () => {
+  if (emailSender) {
+    // already created
+    return emailSender
+  }
 
-module.exports = transporter
+  // Generate test SMTP service account from ethereal.email
+  // Only needed if you don't have a real mail account for testing
+  const testAccount = await nodemailer.createTestAccount()
+
+  console.log('created Ethereal test account %s', testAccount.user)
+
+  // create reusable transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+  })
+
+  emailSender = {
+    async sendMail(options) {
+      const info = await transporter.sendMail(options)
+      console.log('Message sent to %s', options.to)
+      // Preview only available when sending through an Ethereal account
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+
+      return info
+    },
+  }
+
+  return emailSender
+}
+
+module.exports = initEmailer
