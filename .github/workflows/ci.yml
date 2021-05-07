@@ -1,0 +1,20 @@
+name: ci
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out code 🛎
+        uses: actions/checkout@v2
+
+      # install dependencies, start the app,
+      # and run E2E tests using Cypress GitHub action
+      # https://github.com/cypress-io/github-action
+      - name: Run tests 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          wait: 'http://localhost:3000'
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
