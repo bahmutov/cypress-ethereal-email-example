@@ -1,13 +1,17 @@
-import Router from 'next/router'
+import { useState } from 'react'
 import 'tailwindcss/tailwind.css'
 
 export default function Home() {
+  // once the user submitted the form the email will be set
+  const [email, setEmail] = useState(null)
+
   const sendConfirmationCode = async (event) => {
     event.preventDefault()
 
+    const email = event.target.email.value
     const data = {
       name: event.target.name.value,
-      email: event.target.email.value,
+      email,
       companySize: event.target.company_size.value,
     }
     console.log(data)
@@ -18,9 +22,28 @@ export default function Home() {
       },
       method: 'POST',
     })
-
-    Router.push('/confirm')
+    setEmail(email)
   }
+
+  const EmailSent = () => {
+    return (
+      <main className="mt-12 lg:mt-32">
+        <section className="container w-full max-w-md m-auto items-center">
+          <div className="text-center py-3 px-12 bg-green-400 mt-5 mr-5 rounded-md text-white text-lg focus:outline-none w-full">
+            Check your mailbox, the confirmation code was sent to{' '}
+            <span data-cy="sent-email-to" className="font-bold">
+              {email}
+            </span>
+          </div>
+        </section>
+      </main>
+    )
+  }
+
+  if (email) {
+    return <EmailSent />
+  }
+
   return (
     <main className="mt-12 lg:mt-32">
       <section className="container mx-auto px-6">
