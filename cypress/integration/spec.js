@@ -28,7 +28,7 @@ describe('Email confirmation', () => {
 
     // since we are running on the same machine
     // we can access the "database" JSON file
-    cy.readFile('db.json')
+    cy.readFile('db.json', { timeout: 20000 })
       .should('have.property', 'codes')
       // now we are working with the "codes" property
       // which is an array
