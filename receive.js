@@ -1,4 +1,5 @@
 var imaps = require('imap-simple')
+const simpleParser = require('mailparser').simpleParser
 
 // run by injecting inbox login information
 // http://github.com/bahmutov/as-a
@@ -20,19 +21,17 @@ const seeEmails = async () => {
   await connection.openBox('INBOX')
   var searchCriteria = ['1:5']
   var fetchOptions = {
-    bodies: ['HEADER', 'TEXT'],
+    bodies: [''],
   }
   const messages = await connection.search(searchCriteria, fetchOptions)
-  messages.forEach(function (item) {
-    const [header, body] = item.parts
-    const message = {
-      to: header.body.to[0], // the first recipient
-      subject: header.body.subject[0],
-      // todo: extract plan and html email bodies
-      body: body.body,
-    }
-    console.log(message)
-  })
+  if (!messages.length) {
+    console.log('cannot find any emails')
+  } else {
+    const mail = await simpleParser(messages[0].parts[0].body)
+    console.log(mail.subject)
+    console.log(mail.text)
+    console.log(mail.html)
+  }
 
   connection.end()
 }
