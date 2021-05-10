@@ -19,8 +19,6 @@ const confirmationEmailTemplateHTML = readFileSync(
 export default async (req, res) => {
   if (req.method === 'POST') {
     const { name, email, companySize } = req.body
-    // return to the caller right away
-    res.status(200).json({ name, email })
 
     const confirmationCode = codes.createCode(email, name)
     console.log(
@@ -33,6 +31,9 @@ export default async (req, res) => {
       .replace('%USER_NAME%', name)
       .replace('%CONFIRMATION_CODE%', confirmationCode)
 
+    // return to the HTTP caller right away
+    res.status(200).json({ name, email })
+
     // and then send an email
     const emailer = await initEmailer()
     const info = await emailer.sendMail({
@@ -43,7 +44,6 @@ export default async (req, res) => {
       html: confirmationEmailHTML,
     })
     console.log('sent a confirmation email to %s', email)
-
     return
   }
 
