@@ -7,13 +7,31 @@ jobs:
       - name: Check out code 🛎
         uses: actions/checkout@v2
 
-      # install dependencies, start the app,
-      # and run E2E tests using Cypress GitHub action
+      # install NPM dependencies and Cypress
       # https://github.com/cypress-io/github-action
-      - name: Run tests 🧪
+      - name: Install 📦
         uses: cypress-io/github-action@v2
         with:
-          start: npm start
+          runTests: false
+
+      # start application in the background
+      # and pass Sendgrid info by injecting the project's secrets
+      - name: Start the app 🚦
+        run: npm start &
+        env:
+          SENDGRID_HOST: ${{ secrets.SENDGRID_HOST }}
+          SENDGRID_PORT: ${{ secrets. SENDGRID_PORT }}
+          SENDGRID_USER: ${{ secrets.SENDGRID_USER }}
+          SENDGRID_PASSWORD: ${{ secrets.SENDGRID_PASSWORD }}
+          SENDGRID_FROM: ${{ secrets.SENDGRID_FROM }}
+
+      # run Cypress tests
+      - name: E2E tests 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          # we already installed everything
+          install: false
+          # make sure the app has fully started
           wait-on: 'http://localhost:3000'
           record: true
         env:
