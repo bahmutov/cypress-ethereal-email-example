@@ -8,12 +8,11 @@ const makeEmailAccount = require('./email-account')
 module.exports = async (on, config) => {
   const emailAccount = await makeEmailAccount()
 
-  // pass the test email account to the specs
-  // using the config.env object
-  // accessible via Cypress.env('testEmail')
-  config.env.testEmail = emailAccount.email
-
   on('task', {
+    getUserEmail() {
+      return emailAccount.email
+    },
+
     getLastEmail() {
       return emailAccount.getLastEmail()
     },

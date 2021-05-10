@@ -11,18 +11,20 @@ const makeEmailAccount = async () => {
   const testAccount = await nodemailer.createTestAccount()
 
   const emailConfig = {
-    user: testAccount.user,
-    password: testAccount.pass,
-    host: 'imap.ethereal.email',
-    port: 993,
-    tls: true,
-    authTimeout: 10000,
+    imap: {
+      user: testAccount.user,
+      password: testAccount.pass,
+      host: 'imap.ethereal.email',
+      port: 993,
+      tls: true,
+      authTimeout: 10000,
+    },
   }
-  console.log('created new email account %s', emailConfig.user)
-  console.log('for debugging, the password is %s', emailConfig.password)
+  console.log('created new email account %s', testAccount.user)
+  console.log('for debugging, the password is %s', testAccount.pass)
 
   const userEmail = {
-    email: emailConfig.user,
+    email: testAccount.user,
 
     /**
      * Utility method for getting the last email
@@ -35,7 +37,7 @@ const makeEmailAccount = async () => {
         const connection = await imaps.connect(emailConfig)
 
         await connection.openBox('INBOX')
-        const searchCriteria = ['1:5']
+        const searchCriteria = ['1:50']
         const fetchOptions = {
           bodies: [''],
         }
@@ -48,10 +50,12 @@ const makeEmailAccount = async () => {
           return null
         } else {
           console.log('there are %d messages', messages.length)
-          const mail = await simpleParser(messages[0].parts[0].body)
+          // grab the last email
+          const mail = await simpleParser(
+            messages[messages.length - 1].parts[0].body,
+          )
           console.log(mail.subject)
           console.log(mail.text)
-          console.log(mail.html)
 
           return {
             subject: mail.subject,
