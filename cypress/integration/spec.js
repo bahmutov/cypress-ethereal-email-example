@@ -26,6 +26,19 @@ describe('Email confirmation', () => {
       .should('be.visible')
       .and('have.text', userEmail)
 
+    // since we are running on the same machine
+    // we can access the "database" JSON file
+    cy.readFile('db.json')
+      .then(cy.wrap)
+      .its('codes')
+      .should('have.length.gte', 1)
+      .then((list) => {
+        return Cypress._.findLast(list, { email: userEmail })
+      })
+      .then((lastCode) => {
+        cy.log(JSON.stringify(lastCode))
+      })
+
     // ANTI-PATTERN wait for 30 seconds
     // then get the email and hope it has arrived
     cy.wait(30000)
