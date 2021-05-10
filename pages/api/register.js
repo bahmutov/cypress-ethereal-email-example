@@ -22,7 +22,7 @@ export default async (req, res) => {
     // return to the caller right away
     res.status(200).json({ name, email })
 
-    const confirmationCode = codes.createCode(email)
+    const confirmationCode = codes.createCode(email, name)
     console.log(
       'for "%s" at %s the confirmation code is %s',
       name,

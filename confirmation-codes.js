@@ -11,12 +11,14 @@ if (!existsSync('db.json')) {
 }
 
 module.exports = {
-  createCode(email) {
+  createCode(email, name = '') {
     const code = Math.random().toString().slice(2, 10)
     db.get('codes')
       .push({
         code,
         email,
+        name,
+        timestamp: new Date().toISOString(),
       })
       .write()
 
@@ -36,7 +38,8 @@ module.exports = {
       return false
     }
 
-    // valid code
+    // we could check the timestamp to make sure
+    // the confirmation code is still valid
     return true
   },
   reset() {
