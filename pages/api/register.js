@@ -1,6 +1,7 @@
 // @ts-check
 const { readFileSync } = require('fs')
 const { join } = require('path')
+const { stripIndent } = require('common-tags')
 const initEmailer = require('../../emailer')
 
 // singleton
@@ -35,12 +36,18 @@ export default async (req, res) => {
     res.status(200).json({ name, email })
 
     // and then send an email
+    const text = stripIndent`
+      Dear ${name},
+
+      Your confirmation code is ${confirmationCode}
+    `
+
     const emailer = await initEmailer()
     const info = await emailer.sendMail({
       from: '"Registration system" <reg@company.co>',
       to: email,
       subject: 'Confirmation code 1️⃣2️⃣3️⃣',
-      text: `Your confirmation code is ${confirmationCode}`,
+      text,
       html: confirmationEmailHTML,
     })
     console.log('sent a confirmation email to %s', email)
