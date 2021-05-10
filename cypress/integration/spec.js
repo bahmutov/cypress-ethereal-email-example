@@ -48,7 +48,7 @@ describe('Email confirmation', () => {
 
         cy.contains('Confirm registration').click()
 
-        cy.get('#confirmation_code').type(code)
+        cy.get('#confirmation_code', { timeout: 10000 }).type(code)
         cy.get('button[type=submit]').click()
         // first positive assertion, then negative
         // https://glebbahmutov.com/blog/negative-assertions/
