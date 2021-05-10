@@ -24,10 +24,9 @@ export default async (req, res) => {
 
     const confirmationCode = codes.createCode(email)
     console.log('for %s confirmation code %s', email, confirmationCode)
-    const confirmationEmailHTML = confirmationEmailTemplateHTML.replace(
-      '%CONFIRMATION_CODE%',
-      confirmationCode,
-    )
+    const confirmationEmailHTML = confirmationEmailTemplateHTML
+      .replace('%USER_NAME%', name)
+      .replace('%CONFIRMATION_CODE%', confirmationCode)
 
     // and then send an email
     const emailer = await initEmailer()
