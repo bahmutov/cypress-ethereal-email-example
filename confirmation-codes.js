@@ -6,13 +6,13 @@ const crypto = require('crypto')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
 
-if (!existsSync('db.json')) {
-  db.defaults({ codes: [] }).write()
-  console.log('wrote db.json')
-}
-
 module.exports = {
   createCode(email, name = '') {
+    if (!existsSync('db.json')) {
+      db.defaults({ codes: [] }).write()
+      console.log('wrote db.json')
+    }
+
     const code = crypto.randomBytes(4).toString('hex')
     db.get('codes')
       .push({

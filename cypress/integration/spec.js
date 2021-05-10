@@ -29,8 +29,9 @@ describe('Email confirmation', () => {
     // since we are running on the same machine
     // we can access the "database" JSON file
     cy.readFile('db.json')
-      .then(cy.wrap)
-      .its('codes')
+      .should('have.property', 'codes')
+      // now we are working with the "codes" property
+      // which is an array
       .should('have.length.gte', 1)
       .then((list) => {
         return Cypress._.findLast(list, { email: userEmail })
