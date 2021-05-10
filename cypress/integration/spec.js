@@ -1,11 +1,8 @@
 /// <reference types="cypress" />
 
 describe('Email confirmation', () => {
-  beforeEach(() => {
-    cy.task('resetEmails')
-  })
-
-  it('has test account email', () => {
+  before(() => {
+    // check the test email only once before the tests
     expect(Cypress.env('testEmail')).to.be.a('string')
   })
 
@@ -22,5 +19,9 @@ describe('Email confirmation', () => {
     cy.get('[data-cy=sent-email-to]')
       .should('be.visible')
       .and('have.text', email)
+
+    // wait for 30 seconds
+    cy.wait(30000)
+    cy.task('getLastEmail')
   })
 })
