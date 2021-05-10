@@ -49,10 +49,11 @@ describe('Email confirmation', () => {
         cy.contains('Confirm registration').click()
 
         cy.get('#confirmation_code').type(code)
-        cy.location('pathname').should('equal', '/confirm')
         cy.get('button[type=submit]').click()
-        cy.get('[data-cy=incorrect-code]').should('not.exist')
+        // first positive assertion, then negative
+        // https://glebbahmutov.com/blog/negative-assertions/
         cy.get('[data-cy=confirmed-code]').should('be.visible')
+        cy.get('[data-cy=incorrect-code]').should('not.exist')
       })
   })
 })

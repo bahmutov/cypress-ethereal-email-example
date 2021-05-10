@@ -1,26 +1,37 @@
-// [code as string]: email
-let codes = {}
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const { existsSync } = require('fs')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+
+if (!existsSync('db.json')) {
+  db.defaults({ codes: [] }).write()
+  console.log('wrote db.json')
+}
 
 module.exports = {
   createCode(email) {
     const code = Math.random().toString().slice(2, 10)
-    codes[code] = email
-
-    console.log('all confirmation codes')
-    console.log(codes)
+    db.get('codes')
+      .push({
+        code,
+        email,
+      })
+      .write()
 
     return code
   },
   checkCode(code) {
     console.log('checking confirmation codes for', code)
-    console.log(codes)
 
     if (typeof code !== 'string') {
       console.log('code %s is not a string, but %s', code, typeof code)
       return false
     }
 
-    if (!codes[code]) {
+    const found = db.get('codes').find({ code }).value()
+    if (!found) {
       // non-existent email
       return false
     }
@@ -29,6 +40,7 @@ module.exports = {
     return true
   },
   reset() {
-    codes = {}
+    db.set('posts', []).write()
+    console.log('reset db.json')
   },
 }
