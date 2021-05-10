@@ -1,6 +1,7 @@
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const { existsSync } = require('fs')
+const crypto = require('crypto')
 
 const adapter = new FileSync('db.json')
 const db = low(adapter)
@@ -12,7 +13,7 @@ if (!existsSync('db.json')) {
 
 module.exports = {
   createCode(email, name = '') {
-    const code = Math.random().toString().slice(2, 10)
+    const code = crypto.randomBytes(4).toString('hex')
     db.get('codes')
       .push({
         code,
