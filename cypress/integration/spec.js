@@ -26,9 +26,10 @@ describe('Email confirmation', () => {
       .should('be.visible')
       .and('have.text', userEmail)
 
-    // ANTI-PATTERN wait for 30 seconds
+    // ANTI-PATTERN wait for N seconds
     // then get the email and hope it has arrived
-    cy.wait(30000)
+    cy.wait(10000)
+
     cy.task('getLastEmail')
       .its('html')
       .then((html) => {
