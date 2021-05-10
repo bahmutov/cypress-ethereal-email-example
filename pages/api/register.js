@@ -23,7 +23,12 @@ export default async (req, res) => {
     res.status(200).json({ name, email })
 
     const confirmationCode = codes.createCode(email)
-    console.log('for %s confirmation code %s', email, confirmationCode)
+    console.log(
+      'for "%s" at %s the confirmation code is %s',
+      name,
+      email,
+      confirmationCode,
+    )
     const confirmationEmailHTML = confirmationEmailTemplateHTML
       .replace('%USER_NAME%', name)
       .replace('%CONFIRMATION_CODE%', confirmationCode)
