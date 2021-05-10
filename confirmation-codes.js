@@ -1,17 +1,25 @@
-// [email]: code
+// [code as string]: email
 let codes = {}
 
 module.exports = {
   createCode(email) {
-    codes[email] = Math.random().toString().slice(2, 10)
-    return codes[email]
+    const code = Math.random().toString().slice(2, 10)
+    codes[code] = email
+
+    return code
   },
-  checkCode(email, code) {
-    if (!codes[email]) {
+  checkCode(code) {
+    if (typeof code !== 'string') {
+      return false
+    }
+
+    if (!codes[code]) {
       // non-existent email
       return false
     }
-    return codes[email] === code
+
+    // valid code
+    return true
   },
   reset() {
     codes = {}

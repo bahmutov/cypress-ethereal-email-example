@@ -6,10 +6,24 @@ export default function Confirm() {
   // I wish I could build a state machine here ;)
   const [code, setCode] = useState('unknown')
 
-  const checkConfirmationCode = (event) => {
+  const checkConfirmationCode = async (event) => {
     event.preventDefault()
 
-    if (event.target.confirmation_code.value === '654agc') {
+    const code = event.target.confirmation_code.value
+    const data = {
+      code,
+    }
+
+    const res = await fetch('/api/confirm', {
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+    const { confirmed } = await res.json()
+    console.log('code %s confirmed? %s', code, confirmed)
+    if (confirmed) {
       setCode('confirmed')
     } else {
       setCode('wrong')
