@@ -1,34 +1,46 @@
-// [code as string]: email
-let codes = {}
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const { existsSync } = require('fs')
+const crypto = require('crypto')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+db.defaults({ codes: [] }).write()
 
 module.exports = {
-  createCode(email) {
-    const code = Math.random().toString().slice(2, 10)
-    codes[code] = email
-
-    console.log('all confirmation codes')
-    console.log(codes)
+  createCode(email, name = '') {
+    const code = crypto.randomBytes(4).toString('hex')
+    db.get('codes')
+      .push({
+        code,
+        email,
+        name,
+        timestamp: new Date().toISOString(),
+      })
+      .write()
 
     return code
   },
   checkCode(code) {
     console.log('checking confirmation codes for', code)
-    console.log(codes)
 
     if (typeof code !== 'string') {
       console.log('code %s is not a string, but %s', code, typeof code)
       return false
     }
 
-    if (!codes[code]) {
+    const found = db.get('codes').find({ code }).value()
+    if (!found) {
       // non-existent email
       return false
     }
 
-    // valid code
+    // we could check the timestamp to make sure
+    // the confirmation code is still valid
     return true
   },
   reset() {
-    codes = {}
+    db.set('posts', []).write()
+    console.log('reset db.json')
   },
 }

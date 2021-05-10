@@ -26,6 +26,20 @@ describe('Email confirmation', () => {
       .should('be.visible')
       .and('have.text', userEmail)
 
+    // since we are running on the same machine
+    // we can access the "database" JSON file
+    cy.readFile('db.json', { timeout: 20000 })
+      .should('have.property', 'codes')
+      // now we are working with the "codes" property
+      // which is an array
+      .should('have.length.gte', 1)
+      .then((list) => {
+        return Cypress._.findLast(list, { email: userEmail })
+      })
+      .then((lastCode) => {
+        cy.log(JSON.stringify(lastCode))
+      })
+
     // ANTI-PATTERN wait for 30 seconds
     // then get the email and hope it has arrived
     cy.wait(30000)
@@ -49,10 +63,11 @@ describe('Email confirmation', () => {
         cy.contains('Confirm registration').click()
 
         cy.get('#confirmation_code').type(code)
-        cy.location('pathname').should('equal', '/confirm')
         cy.get('button[type=submit]').click()
-        cy.get('[data-cy=incorrect-code]').should('not.exist')
+        // first positive assertion, then negative
+        // https://glebbahmutov.com/blog/negative-assertions/
         cy.get('[data-cy=confirmed-code]').should('be.visible')
+        cy.get('[data-cy=incorrect-code]').should('not.exist')
       })
   })
 })
