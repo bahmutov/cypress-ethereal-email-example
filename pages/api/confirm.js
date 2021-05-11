@@ -1,7 +1,7 @@
 // @ts-check
 
 // singleton
-const codes = require('../../confirmation-codes')
+const codes = require('../../src/confirmation-codes')
 
 export default async (req, res) => {
   if (req.method === 'POST') {

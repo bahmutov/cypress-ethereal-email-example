@@ -2,10 +2,10 @@
 const { readFileSync } = require('fs')
 const { join } = require('path')
 const { stripIndent } = require('common-tags')
-const initEmailer = require('../../emailer')
+const initEmailer = require('../../src/emailer')
 
 // singleton
-const codes = require('../../confirmation-codes')
+const codes = require('../../src/confirmation-codes')
 
 const confirmationEmailPath = join(
   process.cwd(), // should be the root folder of the project

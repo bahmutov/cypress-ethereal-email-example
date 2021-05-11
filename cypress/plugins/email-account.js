@@ -28,21 +28,24 @@ const makeEmailAccount = async () => {
 
     /**
      * Utility method for getting the last email
+     * for the Ethereal email account created above.
      */
     async getLastEmail() {
+      // makes debugging very simple
       console.log('getting the last email')
       console.log(emailConfig)
 
       try {
         const connection = await imaps.connect(emailConfig)
 
+        // grab up to 50 emails from the inbox
         await connection.openBox('INBOX')
         const searchCriteria = ['1:50']
         const fetchOptions = {
           bodies: [''],
         }
         const messages = await connection.search(searchCriteria, fetchOptions)
-
+        // and close the connection to avoid it hanging
         connection.end()
 
         if (!messages.length) {
@@ -57,6 +60,7 @@ const makeEmailAccount = async () => {
           console.log(mail.subject)
           console.log(mail.text)
 
+          // and returns the main fields
           return {
             subject: mail.subject,
             text: mail.text,
