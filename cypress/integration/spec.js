@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 // @ts-check
+// https://github.com/bahmutov/cypress-recurse
+const { recurse } = require('cypress-recurse')
 
 describe('Email confirmation', () => {
   let userEmail
@@ -26,11 +28,11 @@ describe('Email confirmation', () => {
       .should('be.visible')
       .and('have.text', userEmail)
 
-    // ANTI-PATTERN wait for N seconds
-    // then get the email and hope it has arrived
-    cy.wait(10000)
-
-    cy.task('getLastEmail')
+    // retry fetching the email
+    recurse(() => cy.task('getLastEmail'), Cypress._.isObject, {
+      timeout: 60000,
+      delay: 5000,
+    })
       .its('html')
       .then((html) => {
         cy.document({ log: false }).invoke({ log: false }, 'write', html)
