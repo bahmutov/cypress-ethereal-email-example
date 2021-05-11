@@ -5,7 +5,7 @@ const makeEmailAccount = require('./email-account')
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = async (on, config) => {
+module.exports = async (on) => {
   const emailAccount = await makeEmailAccount()
 
   on('task', {
@@ -17,7 +17,4 @@ module.exports = async (on, config) => {
       return emailAccount.getLastEmail()
     },
   })
-
-  // important: return the changed config
-  return config
 }
