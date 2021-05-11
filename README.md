@@ -3,6 +3,8 @@
 
 > Using an external [Ethereal email](https://ethereal.email/) inbox and [Sendgrid](https://sendgrid.com/) to test emails
 
+![HTML Email](./images/confirm.png)
+
 **Note:** if you are using an SMTP server directly to send emails, take a look at [cypress-email-example](https://github.com/bahmutov/cypress-email-example) repository where we spawn our own SMTP server right from the Cypress during tests.
 
 ## Install and run
