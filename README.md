@@ -48,6 +48,14 @@ The temporary email account is created by [cypress/plugins/email-account.js](./c
 - enters the extracted confirmation code
 - verifies the page shows "Success"
 
+The start of the test
+
+![The start of the test](./images/test-start.png)
+
+The second part of the test
+
+![The end of the test](./images/test-end.png)
+
 [ci image]: https://github.com/bahmutov/cypress-ethereal-email-example/workflows/ci/badge.svg?branch=main
 [ci url]: https://github.com/bahmutov/cypress-ethereal-email-example/actions
 [badges image]: https://github.com/bahmutov/cypress-ethereal-email-example/workflows/badges/badge.svg?branch=main
