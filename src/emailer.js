@@ -1,3 +1,4 @@
+// @ts-check
 // https://nodemailer.com/about/
 const nodemailer = require('nodemailer')
 
@@ -32,11 +33,6 @@ const initEmailer = async () => {
   })
 
   emailSender = {
-    /**
-     * created Ethereal email account
-     */
-    testAccount,
-
     /**
      * Sends an email using node mailer via Ethereal SMTP server
      * @param {*} options Email options object
