@@ -28,6 +28,24 @@ $ npx cypress open
 # click the spec.js
 ```
 
+## Application
+
+Next JS application showing the confirm page, emailing a confirmation code and storing it in the database. The API hook [pages/api/register.js](./pages/api/register.js) uses [src/emailer.js](./src/emailer.js) to send the email using the SMTP config from the environment variables.
+
+Once the user gets the email, they enter the confirmation code that is checked against the database by [pages/api/confirm.js](./pages/api/confirm.js).
+
+## The test
+
+The temporary email account is created by [cypress/plugins/email-account.js](./cypress/plugins/email-account.js) code called from the [cypress/plugins/index.js](./cypress/plugins/index.js). The [cypress/integration/spec.js](./cypress/integration/spec.js) does the full end-to-end test:
+
+- opens the application page
+- enters the temporary email address
+- checks the temporary email address to get the last email
+- loads the HTML email in the Test Runner
+- grabs the confirmation code and clicks the confirm button
+- enters the extracted confirmation code
+- verifies the page shows "Success"
+
 [ci image]: https://github.com/bahmutov/cypress-ethereal-email-example/workflows/ci/badge.svg?branch=main
 [ci url]: https://github.com/bahmutov/cypress-ethereal-email-example/actions
 [badges image]: https://github.com/bahmutov/cypress-ethereal-email-example/workflows/badges/badge.svg?branch=main
