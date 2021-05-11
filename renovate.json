@@ -12,9 +12,11 @@
       "packagePatterns": ["*"],
       "excludePackagePatterns": [
         "cypress",
+        "cypress-recurse",
+        "next",
+        "mailparser",
         "nodemailer",
-        "smtp-tester",
-        "next"
+        "lowdb"
       ],
       "enabled": false
     }
