@@ -1,5 +1,5 @@
 # cypress-ethereal-email-example
-[![ci status][ci image]][ci url] [![badges status][badges image]][badges url] [![renovate-app badge][renovate-badge]][renovate-app] ![cypress version](https://img.shields.io/badge/cypress-7.6.0-brightgreen) [![cypress-ethereal-email-example](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/v1m866/main&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/v1m866/runs)
+[![ci status][ci image]][ci url] [![badges status][badges image]][badges url] [![renovate-app badge][renovate-badge]][renovate-app] ![cypress version](https://img.shields.io/badge/cypress-7.7.0-brightgreen) [![cypress-ethereal-email-example](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/v1m866/main&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/v1m866/runs)
 
 > Using an external [Ethereal email](https://ethereal.email/) inbox and [Sendgrid](https://sendgrid.com/) to test emails
 
