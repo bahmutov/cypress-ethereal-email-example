@@ -16,7 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "10.2.5",
-    "cypress": "8.2.0",
+    "cypress": "8.3.0",
     "cypress-recurse": "1.8.1",
     "imap-simple": "5.0.0",
     "lodash": "4.17.21",
