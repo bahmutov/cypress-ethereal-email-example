@@ -17,6 +17,8 @@ const confirmationEmailTemplateHTML = readFileSync(
   'utf-8',
 )
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export default async (req, res) => {
   if (req.method === 'POST') {
     const { name, email, companySize } = req.body
@@ -43,6 +45,13 @@ export default async (req, res) => {
     `
 
     const emailer = await initEmailer()
+
+    // simulate async internet better by
+    // introducing a random delay
+    const delay = 5000 + Math.random() * 15000
+    console.log('sleeping for %dms', delay)
+    await sleep(delay)
+
     const info = await emailer.sendMail({
       from: '"Registration system" <reg@company.co>',
       to: email,

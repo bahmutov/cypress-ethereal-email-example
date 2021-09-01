@@ -22,6 +22,8 @@ SENDGRID_PASSWORD=
 SENDGRID_FROM=
 ```
 
+**Tip:** use [as-a](https://github.com/bahmutov/as-a) utility to inject a block of environment variables when running a command.
+
 The above variables are only needed for the `npm start` process, as Cypress creates its own temporary email [Ethereal email inbox](https://ethereal.email/).
 
 ```shell

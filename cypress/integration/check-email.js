@@ -14,7 +14,9 @@ describe('Email confirmation', () => {
     })
   })
 
-  it('sends confirmation code', () => {
+  // skipping this demo test that fails because it checks
+  // the email too soon and never retries it again
+  it.skip('sends confirmation code', () => {
     const userName = 'Joe Bravo'
 
     cy.visit('/')
@@ -29,14 +31,15 @@ describe('Email confirmation', () => {
       .and('have.text', userEmail)
 
     // retry fetching the email
-    recurse(
-      () => cy.task('getLastEmail'), // Cypress commands to retry
-      Cypress._.isObject, // keep retrying until the task returns an object
-      {
-        timeout: 60000, // retry up to 1 minute
-        delay: 5000, // wait 5 seconds between attempts
-      },
-    )
+    // recurse(
+    //   () => cy.task('getLastEmail'), // Cypress commands to retry
+    //   Cypress._.isObject, // keep retrying until the task returns an object
+    //   {
+    //     timeout: 60000, // retry up to 1 minute
+    //     delay: 5000, // wait 5 seconds between attempts
+    //   },
+    // )
+    cy.task('getLastEmail')
       .its('html')
       .then((html) => {
         cy.document({ log: false }).invoke({ log: false }, 'write', html)
@@ -53,8 +56,6 @@ describe('Email confirmation', () => {
           .to.be.a('string')
           .and.have.length.gt(5)
 
-        // add a small pause to make the email visible in the video
-        cy.wait(2000, { log: false })
         cy.contains('Confirm registration').click()
 
         cy.get('#confirmation_code', { timeout: 10000 }).type(code)
