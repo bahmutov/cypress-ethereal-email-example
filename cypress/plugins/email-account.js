@@ -9,6 +9,7 @@ const simpleParser = require('mailparser').simpleParser
 const makeEmailAccount = async () => {
   // Generate a new Ethereal email inbox account
   const testAccount = await nodemailer.createTestAccount()
+  let lastQtyCount = null
 
   const emailConfig = {
     imap: {
@@ -53,6 +54,10 @@ const makeEmailAccount = async () => {
           return null
         } else {
           console.log('there are %d messages', messages.length)
+
+          // Check if new email has arrived
+          if (messages.length === lastQtyCount) return false;
+
           // grab the last email
           const mail = await simpleParser(
             messages[messages.length - 1].parts[0].body,
