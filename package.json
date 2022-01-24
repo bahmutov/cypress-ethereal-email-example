@@ -11,9 +11,12 @@
     "cy:run": "cypress run",
     "local": "start-test 3000 cy:open"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cypress-example",
+    "email-testing"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "autoprefixer": "10.2.5",
     "cypress": "9.3.1",
