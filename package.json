@@ -20,7 +20,7 @@
   "devDependencies": {
     "autoprefixer": "10.2.5",
     "cypress": "9.5.1",
-    "cypress-recurse": "1.14.1",
+    "cypress-recurse": "1.14.2",
     "imap-simple": "5.0.0",
     "lodash": "4.17.21",
     "mailparser": "3.4.0",
