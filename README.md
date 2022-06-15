@@ -12,13 +12,13 @@ Read the blog post ["Full Testing of HTML Emails using SendGrid and Ethereal Acc
 
 ## Install and run
 
-This application uses Sendgrid to send emails, thus you need to configure an account and expose it via environment variables
+This application uses Sendgrid to send emails, thus you need to configure an account and expose it via environment variables. For authentication, you need to create an API key. When using Basic Authentication, your username will always be "apikey," and your password will be your API key.
 
 ```
 SENDGRID_HOST=smtp.sendgrid.net
 SENDGRID_PORT=465
-SENDGRID_USER=
-SENDGRID_PASSWORD=
+SENDGRID_USER=apikey
+SENDGRID_PASSWORD=<sendgrid-api-key>
 # the same as verified sender
 SENDGRID_FROM=
 ```
