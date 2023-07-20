@@ -24,7 +24,7 @@
     "imap-simple": "5.0.0",
     "lodash": "4.17.21",
     "mailparser": "3.6.5",
-    "nodemailer": "6.9.3",
+    "nodemailer": "6.9.4",
     "postcss": "8.2.13",
     "prettier": "2.2.1",
     "start-server-and-test": "1.12.1",
