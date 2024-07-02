@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "10.2.5",
-    "cypress": "9.7.0",
+    "cypress": "13.13.0",
     "cypress-recurse": "1.35.3",
     "imap-simple": "5.0.0",
     "lodash": "4.17.21",
